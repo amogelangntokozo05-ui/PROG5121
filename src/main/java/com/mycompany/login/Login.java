@@ -2,3 +2,45 @@ package com.mycompany.login;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+public class Login {
+
+   // Instance variables to store registered user details
+   private String firstName;
+   private String lastName;
+   private String username;
+   private String password;
+   private String cellPhoneNumber;
+
+   /**
+    * Regular expression pattern for validating South African cell phone numbers.
+   
+    */
+   private static final String SA_PHONE_REGEX = "^\\+27\\d{9,10}$";
+   private static final Pattern PHONE_PATTERN = Pattern.compile(SA_PHONE_REGEX);
+
+   // Constant feedback messages
+   public static final String MSG_USERNAME_SUCCESS = "Username successfully captured.";
+   public static final String MSG_USERNAME_ERROR = "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
+
+   public static final String MSG_PASSWORD_SUCCESS = "Password successfully captured.";
+   public static final String MSG_PASSWORD_ERROR = "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
+
+   public static final String MSG_PHONE_SUCCESS = "Cell number successfully captured.";
+   public static final String MSG_PHONE_SUCCESS_ALT = "Cell phone number successfully added.";
+   public static final String MSG_PHONE_ERROR = "Cell number is incorrectly formatted or does not contain an international code; please correct the number and try again.";
+   public static final String MSG_PHONE_ERROR_ALT = "Cell phone number incorrectly formatted or does not contain international code.";
+
+   public static final String MSG_REGISTRATION_SUCCESS = "The user has been registered successfully.";
+   public static final String MSG_LOGIN_FAILED = "Username or password incorrect, please try again.";
+
+   /**
+    * Default constructor for Login class.
+    */
+   public Login() {
+      this.firstName = "";
+      this.lastName = "";
+      this.username = "";
+      this.password = "";
+      this.cellPhoneNumber = "";
+   }
