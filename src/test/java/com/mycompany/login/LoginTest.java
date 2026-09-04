@@ -100,3 +100,45 @@ public class LoginTest {
         String actual = login.returnLoginStatus(false);
         assertEquals(expected, actual);
     }
+
+        // =========================================================================
+    // SECTION 2: assertTrue / assertFalse Tests (Pages 9-10)
+    // =========================================================================
+
+    @Test
+    @DisplayName("assertTrue: Login Successful")
+    public void testLoginSuccessful() {
+        boolean result = login.loginUser("kyl_1", "Ch&&sec@ke99!");
+        assertTrue(result, "Login should return true for valid credentials.");
+    }
+
+    @Test
+    @DisplayName("assertFalse: Login Failed")
+    public void testLoginFailed() {
+        boolean result = login.loginUser("wrongUser", "wrongPass");
+        assertFalse(result, "Login should return false for invalid credentials.");
+    }
+
+    @Test
+    @DisplayName("assertTrue: Username correctly formatted")
+    public void testUsernameCorrectlyFormatted() {
+        String testData = "kyl_1";
+        boolean result = login.checkUserName(testData);
+        assertTrue(result, "Username containing underscore and <= 5 characters should return true.");
+    }
+
+    @Test
+    @DisplayName("assertFalse: Username incorrectly formatted")
+    public void testUsernameIncorrectlyFormatted() {
+        String testData = "kyle!!!!!!!";
+        boolean result = login.checkUserName(testData);
+        assertFalse(result, "Username without underscore or > 5 characters should return false.");
+    }
+
+    @Test
+    @DisplayName("assertTrue: Password meets complexity requirements")
+    public void testPasswordMeetsComplexity() {
+        String testData = "Ch&&sec@ke99!";
+        boolean result = login.checkPasswordComplexity(testData);
+        assertTrue(result, "Password with >= 8 chars, uppercase, digit, and special char should return true.");
+    }
