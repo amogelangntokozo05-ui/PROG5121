@@ -8,14 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Unit Test Suite for Login class validating functionality according to
- * requirements detailed on pages 8-10 of the assignment specification.
- *
- * References:
- * 1. JUnit 5 User Guide (2024). Available at: https://junit.org/junit5/docs/current/user-guide/ (Accessed: 4 September 2026).
- * 2. Hunt, A. and Thomas, D. (2015) 'Pragmatic Unit Testing in Java 8 with JUnit', Pragmatic Bookshelf.
- */
+// LoginTest: unit tests for the Login class.
 public class LoginTest {
 
     private Login login;
