@@ -1,9 +1,10 @@
+
+
 package com.mycompany.login;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// Login: handles registration, validation, and authentication.
 public class Login {
 
    // Instance variables to store registered user details
@@ -13,7 +14,10 @@ public class Login {
    private String password;
    private String cellPhoneNumber;
 
-   // SA phone regex: +27 followed by 9-10 digits.
+   /**
+    * Regular expression pattern for validating South African cell phone numbers.
+   
+    */
    private static final String SA_PHONE_REGEX = "^\\+27\\d{9,10}$";
    private static final Pattern PHONE_PATTERN = Pattern.compile(SA_PHONE_REGEX);
 
@@ -32,7 +36,9 @@ public class Login {
    public static final String MSG_REGISTRATION_SUCCESS = "The user has been registered successfully.";
    public static final String MSG_LOGIN_FAILED = "Username or password incorrect, please try again.";
 
-   // Default constructor for Login class.
+   /**
+    * Default constructor for Login class.
+    */
    public Login() {
       this.firstName = "";
       this.lastName = "";
@@ -41,7 +47,15 @@ public class Login {
       this.cellPhoneNumber = "";
    }
 
-   // Constructor to initialize user fields.
+   /**
+    * Parameterized constructor to initialize user information.
+    *
+    * @param firstName       User's first name
+    * @param lastName        User's last name
+    * @param username        User's username
+    * @param password        User's password
+    * @param cellPhoneNumber User's cell phone number
+    */
    public Login(String firstName, String lastName, String username, String password, String cellPhoneNumber) {
       this.firstName = firstName;
       this.lastName = lastName;
@@ -94,7 +108,14 @@ public class Login {
 
    // --- Validation Methods ---
 
-   // Validate username: contains '_' and <= 5 characters.
+   /**
+    * Checks whether the given username meets requirements:
+    * 1. Must contain an underscore (_).
+    * 2. Must be no more than 5 characters in length.
+    *
+    * @param username The username to validate
+    * @return true if valid, false otherwise
+    */
    public boolean checkUserName(String username) {
       if (username == null || username.trim().isEmpty()) {
          return false;
@@ -102,12 +123,25 @@ public class Login {
       return username.contains("_") && username.length() <= 5;
    }
 
-   // Validate the stored username.
+   /**
+    * Checks the currently stored username.
+    *
+    * @return true if valid, false otherwise
+    */
    public boolean checkUserName() {
       return checkUserName(this.username);
    }
 
-   // Validate password complexity: >=8 chars, uppercase, digit, special.
+   /**
+    * Checks whether the given password meets complexity rules:
+    * 1. At least 8 characters long.
+    * 2. Contains at least one capital (uppercase) letter.
+    * 3. Contains at least one number (digit).
+    * 4. Contains at least one special character.
+    *
+    * @param password The password to validate
+    * @return true if complex enough, false otherwise
+    */
    public boolean checkPasswordComplexity(String password) {
       if (password == null || password.length() < 8) {
          return false;
@@ -131,12 +165,27 @@ public class Login {
       return hasCapital && hasNumber && hasSpecial;
    }
 
-   // Validate the stored password complexity.
+   /**
+    * Checks the currently stored password.
+    *
+    * @return true if complex enough, false otherwise
+    */
    public boolean checkPasswordComplexity() {
       return checkPasswordComplexity(this.password);
    }
 
-   // Validate SA phone format: international +27 followed by 9-10 digits.
+   /**
+    * Checks whether the cell phone number is correctly formatted using regex:
+    * Contains the international country code (+27) followed by the phone number
+    * (not more than 10 digits long).
+    *
+    * References:
+    * Regex validation referencing Oracle Java Pattern Documentation & ITU E.164
+    * international numbering standards.
+    *
+    * @param cellPhoneNumber The cell phone number string to validate
+    * @return true if matches valid international SA phone format, false otherwise
+    */
    public boolean checkCellPhoneNumber(String cellPhoneNumber) {
       if (cellPhoneNumber == null || cellPhoneNumber.trim().isEmpty()) {
          return false;
@@ -145,12 +194,21 @@ public class Login {
       return matcher.matches();
    }
 
-   // Validate the stored cell phone number format.
+   /**
+    * Checks the currently stored cell phone number.
+    *
+    * @return true if matches valid international SA phone format, false otherwise
+    */
    public boolean checkCellPhoneNumber() {
       return checkCellPhoneNumber(this.cellPhoneNumber);
    }
 
-   // Return username validation message.
+   /**
+    * Returns the validation message for a username.
+    *
+    * @param username The username to evaluate
+    * @return Success message or descriptive error message
+    */
    public String validateUsernameMessage(String username) {
       if (checkUserName(username)) {
          return MSG_USERNAME_SUCCESS;
@@ -158,7 +216,12 @@ public class Login {
       return MSG_USERNAME_ERROR;
    }
 
-   // Return password validation message.
+   /**
+    * Returns the validation message for a password.
+    *
+    * @param password The password to evaluate
+    * @return Success message or descriptive error message
+    */
    public String validatePasswordMessage(String password) {
       if (checkPasswordComplexity(password)) {
          return MSG_PASSWORD_SUCCESS;
@@ -166,7 +229,12 @@ public class Login {
       return MSG_PASSWORD_ERROR;
    }
 
-   // Return cell phone validation message.
+   /**
+    * Returns the validation message for a cell phone number.
+    *
+    * @param cellNumber The cell phone number to evaluate
+    * @return Success message or descriptive error message
+    */
    public String validateCellPhoneMessage(String cellNumber) {
       if (checkCellPhoneNumber(cellNumber)) {
          return MSG_PHONE_SUCCESS;
@@ -174,7 +242,19 @@ public class Login {
       return MSG_PHONE_ERROR;
    }
 
-   // Register user if all validations pass; return status message.
+   /**
+    * Registers the user with provided information if all formatting conditions are
+    * met.
+    * Returns registration feedback messaging indicating errors or successful
+    * registration.
+    *
+    * @param firstName       User's first name
+    * @param lastName        User's last name
+    * @param username        User's username
+    * @param password        User's password
+    * @param cellPhoneNumber User's cell phone number
+    * @return Status message indicating outcome of registration
+    */
    public String registerUser(String firstName, String lastName, String username, String password,
          String cellPhoneNumber) {
       if (!checkUserName(username)) {
@@ -199,14 +279,24 @@ public class Login {
       return MSG_USERNAME_SUCCESS + "\n" + MSG_PASSWORD_SUCCESS + "\n" + MSG_PHONE_SUCCESS;
    }
 
-   // Register user using instance fields.
+   /**
+    * Overloaded registerUser using instance fields.
+    *
+    * @return Status message indicating outcome of registration
+    */
    public String registerUser() {
       return registerUser(this.firstName, this.lastName, this.username, this.password, this.cellPhoneNumber);
    }
 
    // --- Login & Authentication Methods ---
 
-   // Verify entered credentials against stored user.
+   /**
+    * Verifies that the entered username and password match the stored credentials.
+    *
+    * @param enteredUsername Entered username
+    * @param enteredPassword Entered password
+    * @return true if credentials match registered user, false otherwise
+    */
    public boolean loginUser(String enteredUsername, String enteredPassword) {
       if (enteredUsername == null || enteredPassword == null) {
          return false;
@@ -217,7 +307,13 @@ public class Login {
       return this.username.equals(enteredUsername) && this.password.equals(enteredPassword);
    }
 
-   // Return greeting on successful login or failure message.
+   /**
+    * Returns the appropriate login message based on whether authentication was
+    * successful.
+    *
+    * @param loginSuccess Flag indicating whether login succeeded
+    * @return Greeting message if true, error message if false
+    */
    public String returnLoginStatus(boolean loginSuccess) {
       if (loginSuccess) {
          return "Welcome " + this.firstName + ", " + this.lastName + " it is great to see you again.";
@@ -225,7 +321,14 @@ public class Login {
       return MSG_LOGIN_FAILED;
    }
 
-   // Authenticate entered credentials and return appropriate login message.
+   /**
+    * Authenticates the user with username and password and returns the login
+    * status message.
+    *
+    * @param enteredUsername Entered username
+    * @param enteredPassword Entered password
+    * @return Welcome message or failure message
+    */
    public String returnLoginStatus(String enteredUsername, String enteredPassword) {
       boolean success = loginUser(enteredUsername, enteredPassword);
       return returnLoginStatus(success);
