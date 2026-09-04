@@ -11,14 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Unit Test Suite for Part 3: Message Reporting, Parallel Arrays, Search,
- * Longest Message, Delete by Hash, and JSON reading as specified on Page 19.
- *
- * References:
- * 1. JUnit 5 User Guide (2024). Available at: https://junit.org/junit5/docs/current/user-guide/ (Accessed: 4 September 2026).
- * 2. Hunt, A. and Thomas, D. (2015) 'Pragmatic Unit Testing in Java 8 with JUnit', Pragmatic Bookshelf.
- */
+// Message report tests for stored messages, searches, and JSON loading.
 public class MessageReportTest {
 
     private MessageManager manager;
@@ -26,15 +19,11 @@ public class MessageReportTest {
     @BeforeEach
     public void setUp() {
         manager = new MessageManager();
-        // Populate standard assignment test data (Messages 1 to 5 from Page 18)
+        // Populate standard assignment test data.
         manager.populateStandardTestData();
     }
 
-    // =========================================================================
-    // Test 1: Sent Messages array correctly populated (Page 19)
-    // =========================================================================
-
-    
+    // Sent message array tests.
 
     @Test
     @DisplayName("assertEquals: Sent Messages array correctly populated")
@@ -46,9 +35,7 @@ public class MessageReportTest {
         assertEquals("It is dinner time !", sentArray[1]);
     }
 
-    // =========================================================================
-    // Test 2: Display the longest Message (Page 19)
-    // =========================================================================
+    // Longest message and search tests.
 
     @Test
     @DisplayName("assertEquals: Display the longest Message")
@@ -57,10 +44,6 @@ public class MessageReportTest {
         String actualLongest = manager.displayLongestMessage();
         assertEquals(expectedLongest, actualLongest, "Longest message text must match Test Message 2.");
     }
-
-    // =========================================================================
-    // Test 3: Search for messageID (Page 19)
-    // =========================================================================
 
     @Test
     @DisplayName("assertEquals: Search for messageID returns corresponding message")
@@ -71,10 +54,6 @@ public class MessageReportTest {
         assertEquals(expectedMessage, actualMessage, "Searching by message ID 0838884567 should return 'It is dinner time !'");
     }
 
-    // =========================================================================
-    // Test 4: Search all messages sent or stored regarding a particular recipient (Page 19)
-    // =========================================================================
-
     @Test
     @DisplayName("assertEquals: Search all messages regarding a particular recipient")
     public void testSearchByRecipient() {
@@ -84,11 +63,8 @@ public class MessageReportTest {
         assertEquals(expectedOutput, actualOutput, "Recipient +27838884567 should return both messages 2 and 5.");
     }
 
-    // =========================================================================
-    // Test 5: Delete a message using a message hash (Page 19)
-    // =========================================================================
+    // Delete and report tests.
 
-    
     @Test
     @DisplayName("assertEquals: Delete a message using message hash")
     public void testDeleteMessageUsingHash() {
@@ -98,14 +74,9 @@ public class MessageReportTest {
 
         assertEquals(expectedResponse, actualResponse);
 
-        // Verify it was removed from arrays
         String searchResult = manager.searchByMessageId("0022222222");
         assertEquals("Message ID not found.", searchResult, "Deleted message ID should no longer be found.");
     }
-
-    // =========================================================================
-    // Test 6: Display Report (Page 19)
-    // =========================================================================
 
     @Test
     @DisplayName("assertEquals / assertTrue: Display report showing Message Hash, Recipient, Message")
@@ -118,11 +89,7 @@ public class MessageReportTest {
         assertTrue(report.contains("Did you get the cake?"), "Report must contain Message payload.");
     }
 
-    // =========================================================================
-    // Test 7: Read JSON file into array (Page 26 Rubric)
-    // =========================================================================
-
-    
+    // JSON loading tests.
 
     @Test
     @DisplayName("assertTrue: Read JSON file into an array")
@@ -130,18 +97,15 @@ public class MessageReportTest {
         String tempJsonPath = "temp_report_test.json";
         File file = new File(tempJsonPath);
 
-        // Save current stored messages to temp file
         manager.saveStoredMessagesToJson(tempJsonPath);
         assertTrue(file.exists() && file.length() > 0, "JSON file should exist and contain data.");
 
-        // Create clean manager and load from JSON
         MessageManager freshManager = new MessageManager();
         String[] loadedArray = freshManager.readStoredMessagesFromJson(tempJsonPath);
 
         assertTrue(loadedArray.length > 0, "Loaded array should contain stored messages from JSON.");
         assertEquals("Where are you? You are late! I have asked you to be on time.", loadedArray[0]);
 
-        // Cleanup
         file.delete();
     }
 }

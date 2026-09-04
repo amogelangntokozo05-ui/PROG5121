@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+// Login tests for validation and authentication.
 public class LoginTest {
 
     private Login login;
@@ -15,11 +16,12 @@ public class LoginTest {
     @BeforeEach
     public void setUp() {
         login = new Login();
-        // Set up a valid user.
+        // Register valid default user for auth tests.
         login.registerUser("Kyle", "Smith", "kyl_1", "Ch&&sec@ke99!", "+27838968976");
     }
 
-    // Username messages.
+    // Username and password validation tests.
+
     @Test
     @DisplayName("assertEquals: Username is correctly formatted message")
     public void testUsernameCorrectlyFormattedMessage() {
@@ -38,7 +40,6 @@ public class LoginTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
-    // Password messages.
     @Test
     @DisplayName("assertEquals: Password meets complexity requirements message")
     public void testPasswordMeetsComplexityMessage() {
@@ -57,7 +58,6 @@ public class LoginTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
-    // Phone messages.
     @Test
     @DisplayName("assertEquals: Cell phone is correctly formatted message")
     public void testCellPhoneCorrectlyFormattedMessage() {
@@ -76,7 +76,6 @@ public class LoginTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
-    // Login status.
     @Test
     @DisplayName("assertEquals: Login return status when login is successful")
     public void testReturnLoginStatusSuccess() {
@@ -93,7 +92,8 @@ public class LoginTest {
         assertEquals(expected, actual);
     }
 
-    // True and false checks.
+    // Authentication and validation booleans.
+
     @Test
     @DisplayName("assertTrue: Login Successful")
     public void testLoginSuccessful() {

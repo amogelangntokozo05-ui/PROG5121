@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+// Message tests for validation, hashing, and JSON storage.
 public class MessageTest {
 
     private Message message;
@@ -21,7 +22,8 @@ public class MessageTest {
         message = new Message();
     }
 
-    // Message length checks.
+    // Message length and validation tests.
+
     @Test
     @DisplayName("assertEquals: Message length within 250 characters succeeds")
     public void testMessageLengthSuccess() {
@@ -34,6 +36,7 @@ public class MessageTest {
     @Test
     @DisplayName("assertEquals: Message exceeding 250 characters returns descriptive failure")
     public void testMessageLengthExceeded() {
+        // Create a 260-character message.
         StringBuilder longMsg = new StringBuilder();
         for (int i = 0; i < 260; i++) {
             longMsg.append("a");
@@ -44,7 +47,8 @@ public class MessageTest {
         assertEquals(expected, actual, "Overly long message should report exact excess characters.");
     }
 
-    // Recipient checks.
+    // Recipient validation and hashing tests.
+
     @Test
     @DisplayName("assertEquals: Correctly formatted recipient cell phone number")
     public void testRecipientCellCorrect() {
@@ -65,7 +69,6 @@ public class MessageTest {
         assertFalse(message.isRecipientCellValid(invalidNumber));
     }
 
-    // Hash checks.
     @Test
     @DisplayName("assertEquals: Message Hash for Test Case 1")
     public void testMessageHashTestCase1() {
@@ -99,7 +102,6 @@ public class MessageTest {
         }
     }
 
-    // Message ID checks.
     @Test
     @DisplayName("assertEquals & assertTrue: Check Message ID is not more than 10 characters")
     public void testCheckMessageID() {
@@ -111,7 +113,8 @@ public class MessageTest {
         assertFalse(message.checkMessageID(""), "Empty ID should fail.");
     }
 
-    // Message action tests.
+    // Message action and reporting tests.
+
     @Test
     @DisplayName("assertEquals: SentMessage Option 1 - Send Message")
     public void testSentMessageSend() {
@@ -136,7 +139,6 @@ public class MessageTest {
         assertEquals("Stored", message.getStatus());
     }
 
-    // Total counts.
     @Test
     @DisplayName("assertEquals: Total sent messages accumulated count")
     public void testReturnTotalMessages() {
@@ -154,7 +156,6 @@ public class MessageTest {
         assertEquals(2, message.returnTotalMessagess(), "Total sent count should equal 2.");
     }
 
-    // Message printing.
     @Test
     @DisplayName("assertEquals: printMessages formatted details")
     public void testPrintMessages() {
@@ -167,7 +168,8 @@ public class MessageTest {
         assertTrue(details.contains("Message: Hi Mike, can you join us for dinner tonight?"));
     }
 
-    // JSON save checks.
+    // JSON storage tests.
+
     @Test
     @DisplayName("assertTrue: Store message to JSON file")
     public void testStoreMessageToJson() {
