@@ -148,3 +148,173 @@ public class Message {
     public static List<Message> getSentMessagesList() {
         return sentMessagesList;
     }
+
+    
+
+    // --- Validation Methods ---
+
+    /**
+     * Ensures that the message ID is not more than ten characters in length.
+     *
+     * @param id The message ID to validate
+     * @return true if ID is non-null and <= 10 characters, false otherwise
+     */
+    public boolean checkMessageID(String id) {
+        return id != null && !id.trim().isEmpty() && id.trim().length() <= 10;
+    }
+
+    /**
+     * Checks the currently stored message ID.
+     *
+     * @return true if ID is valid (<= 10 chars), false otherwise
+     */
+    public boolean checkMessageID() {
+        return checkMessageID(this.messageId);
+    }
+
+    /**
+     * Ensures that the recipient cell number is correctly formatted:
+     * Starts with international code (+27) and has valid format.
+     *
+     * @param recipientPhone The phone number string to validate
+     * @return Success message or descriptive error message
+     */
+    public String checkRecipientCell(String recipientPhone) {
+        if (recipientPhone != null && PHONE_PATTERN.matcher(recipientPhone.trim()).matches()) {
+            return MSG_PHONE_VALID;
+        }
+        return MSG_PHONE_INVALID;
+    }
+
+    /**
+     * Checks the currently stored recipient phone number.
+     *
+     * @return Success message or descriptive error message
+     */
+    public String checkRecipientCell() {
+        return checkRecipientCell(this.recipient);
+    }
+
+    /**
+     * Boolean check for recipient cell number validity.
+     *
+     * @param recipientPhone The phone number to test
+     * @return true if valid, false otherwise
+     */
+    public boolean isRecipientCellValid(String recipientPhone) {
+        return recipientPhone != null && PHONE_PATTERN.matcher(recipientPhone.trim()).matches();
+    }
+
+    /**
+     * Validates that the message text does not exceed 250 characters.
+     *
+     * @param text The message text to validate
+     * @return "Message ready to send." if valid, or "Message exceeds 250 characters by X; please reduce the size."
+     */
+    public String validateMessageLength(String text) {
+        if (text == null || text.length() <= 250) {
+            return MSG_LENGTH_VALID;
+        }
+        int excess = text.length() - 250;
+        return "Message exceeds 250 characters by " + excess + "; please reduce the size.";
+    }
+
+    /**
+     * Generates a 10-digit unique tracking Message ID.
+     *
+     * @return 10-digit numeric string
+     */
+    public static String generateMessageID() {
+        SecureRandom random = new SecureRandom();
+        long number = (long) (random.nextDouble() * 10_000_000_000L);
+        return String.format("%010d", Math.abs(number));
+    }
+
+    // --- Message Hash Generation ---
+
+    /**
+     * Creates and returns the Message Hash from message ID, message number, and text.
+     * Format: <First 2 numbers of Message ID>:<Message Number>:<FIRST WORD><LAST WORD>
+     * Displayed in all uppercase (e.g. 00:0:HITONIGHT).
+     *
+     * References:
+     * String manipulation methods referencing Oracle Java String API documentation.
+     *
+     * @param id   Message ID string
+     * @param num  Message sequence number
+     * @param text Message body
+     * @return Formatted message hash in all caps
+     */
+    public String createMessageHash(String id, int num, String text) {
+        String idPrefix = "00";
+        if (id != null && id.length() >= 2) {
+            idPrefix = id.substring(0, 2);
+        } else if (id != null) {
+            idPrefix = id;
+        }
+
+        String firstWord = "";
+        String lastWord = "";
+
+        if (text != null && !text.trim().isEmpty()) {
+            String[] words = text.trim().split("\\s+");
+            if (words.length > 0) {
+                // Remove non-alphanumeric punctuation from boundaries
+                firstWord = cleanWord(words[0]);
+                lastWord = cleanWord(words[words.length - 1]);
+            }
+        }
+
+        String combinedWords = (firstWord + lastWord).toUpperCase();
+        return idPrefix + ":" + num + ":" + combinedWords;
+    }
+
+    /**
+     * Creates the message hash using the instance attributes.
+     *
+     * @return Formatted message hash in all caps
+     */
+    public String createMessageHash() {
+        return createMessageHash(this.messageId, this.messageNumber, this.messageText);
+    }
+
+    /**
+     * Helper method to strip punctuation from word boundaries.
+     *
+     * @param word Raw word
+     * @return Cleaned alphanumeric word
+     */
+    private static String cleanWord(String word) {
+        if (word == null) return "";
+        return word.replaceAll("^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "");
+    }
+
+    // --- Message Action & Sending ---
+
+    /**
+     * Handles message dispatching based on user's numeric choice:
+     * 1: Send Message -> "Message successfully sent."
+     * 2: Disregard Message -> "Press 0 to delete the message."
+     * 3: Store Message -> "Message successfully stored."
+     *
+     * @param choice Numeric menu selection (1, 2, or 3)
+     * @return Appropriate status feedback message
+     */
+    public String SentMessage(int choice) {
+        switch (choice) {
+            case 1:
+                this.status = "Sent";
+                totalMessagesSent++;
+                sentMessagesList.add(this);
+                return MSG_SENT_SUCCESS;
+            case 2:
+                this.status = "Disregarded";
+                return MSG_DISREGARD;
+            case 3:
+                this.status = "Stored";
+                storeMessage();
+                return MSG_STORED_SUCCESS;
+            default:
+                return "Invalid choice.";
+        }
+    }
