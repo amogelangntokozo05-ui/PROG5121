@@ -193,3 +193,30 @@ public class MessageTest {
         assertTrue(details.contains("Recipient: +27718693002"));
         assertTrue(details.contains("Message: Hi Mike, can you join us for dinner tonight?"));
     }
+
+    
+
+    // =========================================================================
+    // SECTION 7: JSON File Storage Tests (Page 13-14)
+    // =========================================================================
+
+    @Test
+    @DisplayName("assertTrue: Store message to JSON file")
+    public void testStoreMessageToJson() {
+        String testFilePath = "test_messages.json";
+        File testFile = new File(testFilePath);
+        if (testFile.exists()) {
+            testFile.delete();
+        }
+
+        Message jsonMessage = new Message("0012345678", 0, "+27718693002", "Testing JSON storage");
+        boolean result = jsonMessage.storeMessage(testFilePath);
+
+        assertTrue(result, "storeMessage should return true upon successful write.");
+        assertTrue(testFile.exists(), "JSON file should be created on disk.");
+        assertTrue(testFile.length() > 0, "JSON file should not be empty.");
+
+        // Cleanup
+        testFile.delete();
+    }
+}
