@@ -121,3 +121,27 @@ public class MessageReportTest {
     // =========================================================================
     // Test 7: Read JSON file into array (Page 26 Rubric)
     // =========================================================================
+
+    
+
+    @Test
+    @DisplayName("assertTrue: Read JSON file into an array")
+    public void testReadJsonIntoArray() {
+        String tempJsonPath = "temp_report_test.json";
+        File file = new File(tempJsonPath);
+
+        // Save current stored messages to temp file
+        manager.saveStoredMessagesToJson(tempJsonPath);
+        assertTrue(file.exists() && file.length() > 0, "JSON file should exist and contain data.");
+
+        // Create clean manager and load from JSON
+        MessageManager freshManager = new MessageManager();
+        String[] loadedArray = freshManager.readStoredMessagesFromJson(tempJsonPath);
+
+        assertTrue(loadedArray.length > 0, "Loaded array should contain stored messages from JSON.");
+        assertEquals("Where are you? You are late! I have asked you to be on time.", loadedArray[0]);
+
+        // Cleanup
+        file.delete();
+    }
+}
