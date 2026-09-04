@@ -20,9 +20,6 @@ public class LoginTest {
         login.registerUser("Kyle", "Smith", "kyl_1", "Ch&&sec@ke99!", "+27838968976");
     }
 
-    // =========================================================================
-    // SECTION 1: assertEquals Tests (Pages 8-9)
-    // =========================================================================
 
     @Test
     @DisplayName("assertEquals: Username is correctly formatted message")
