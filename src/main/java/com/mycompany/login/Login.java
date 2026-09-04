@@ -320,3 +320,18 @@ public class Login {
       }
       return MSG_LOGIN_FAILED;
    }
+
+   
+   /**
+    * Authenticates the user with username and password and returns the login
+    * status message.
+    *
+    * @param enteredUsername Entered username
+    * @param enteredPassword Entered password
+    * @return Welcome message or failure message
+    */
+   public String returnLoginStatus(String enteredUsername, String enteredPassword) {
+      boolean success = loginUser(enteredUsername, enteredPassword);
+      return returnLoginStatus(success);
+   }
+}
