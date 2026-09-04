@@ -189,3 +189,38 @@ public class Main {
                     break;
                 }
             }
+
+            
+            // Create Message object and compute hash
+            Message message = new Message(messageId, messageNumber, recipient, messageText);
+
+            // Action menu for sending, disregarding, or storing the message
+            System.out.println("\nChoose action for this message:");
+            System.out.println("1) Send Message");
+            System.out.println("2) Disregard Message");
+            System.out.println("3) Store Message to send later");
+            System.out.print("Select choice (1-3): ");
+
+            int actionChoice = 1;
+            try {
+                actionChoice = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                actionChoice = 1;
+            }
+
+            String actionFeedback = message.SentMessage(actionChoice);
+            System.out.println("\n" + actionFeedback);
+
+            // Display full message details in specified order: Message ID, Message Hash, Recipient, Message
+            System.out.println("\n--- Message Details ---");
+            System.out.println(message.printMessages());
+            System.out.println("-----------------------");
+        }
+
+        // Display accumulated total sent messages
+        Message tracker = new Message();
+        System.out.println("\n==================================================");
+        System.out.println("Total messages sent so far: " + tracker.returnTotalMessagess());
+        System.out.println("==================================================");
+    }
+}
