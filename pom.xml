@@ -13,9 +13,17 @@
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>com.mycompany.login.Main</exec.mainClass>
         <junit.version>5.11.0</junit.version>
+        <gson.version>2.11.0</gson.version>
     </properties>
 
     <dependencies>
+        <!-- Google Gson for JSON message storage -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
         <!-- JUnit Jupiter API & Engine for Unit Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

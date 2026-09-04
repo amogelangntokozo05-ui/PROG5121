@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.mycompany.login.LoginTest" time="0.093" tests="16" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.mycompany.login.MessageTest" time="0.158" tests="13" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,20 +59,17 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="70.0"/>
   </properties>
-  <testcase name="testCellPhoneCorrectlyFormattedMessage" classname="com.mycompany.login.LoginTest" time="0.031"/>
-  <testcase name="testUsernameIncorrectlyFormattedMessage" classname="com.mycompany.login.LoginTest" time="0.002"/>
-  <testcase name="testCellPhoneNumberIncorrectlyFormatted" classname="com.mycompany.login.LoginTest" time="0.002"/>
-  <testcase name="testCellPhoneNumberCorrectlyFormatted" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testPasswordDoesNotMeetComplexity" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testUsernameIncorrectlyFormatted" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testPasswordMeetsComplexity" classname="com.mycompany.login.LoginTest" time="0.002"/>
-  <testcase name="testReturnLoginStatusSuccess" classname="com.mycompany.login.LoginTest" time="0.002"/>
-  <testcase name="testPasswordMeetsComplexityMessage" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testLoginFailed" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testCellPhoneIncorrectlyFormattedMessage" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testLoginSuccessful" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testReturnLoginStatusFailed" classname="com.mycompany.login.LoginTest" time="0.002"/>
-  <testcase name="testPasswordDoesNotMeetComplexityMessage" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testUsernameCorrectlyFormatted" classname="com.mycompany.login.LoginTest" time="0.001"/>
-  <testcase name="testUsernameCorrectlyFormattedMessage" classname="com.mycompany.login.LoginTest" time="0.003"/>
+  <testcase name="testReturnTotalMessages" classname="com.mycompany.login.MessageTest" time="0.009"/>
+  <testcase name="testSentMessageSend" classname="com.mycompany.login.MessageTest" time="0.002"/>
+  <testcase name="testCheckMessageID" classname="com.mycompany.login.MessageTest" time="0.04"/>
+  <testcase name="testMessageHashTestCase1" classname="com.mycompany.login.MessageTest" time="0.001"/>
+  <testcase name="testRecipientCellCorrect" classname="com.mycompany.login.MessageTest" time="0.001"/>
+  <testcase name="testMessageLengthExceeded" classname="com.mycompany.login.MessageTest" time="0.001"/>
+  <testcase name="testMessageHashesInLoop" classname="com.mycompany.login.MessageTest" time="0.003"/>
+  <testcase name="testMessageLengthSuccess" classname="com.mycompany.login.MessageTest" time="0.001"/>
+  <testcase name="testStoreMessageToJson" classname="com.mycompany.login.MessageTest" time="0.054"/>
+  <testcase name="testRecipientCellIncorrect" classname="com.mycompany.login.MessageTest" time="0.001"/>
+  <testcase name="testPrintMessages" classname="com.mycompany.login.MessageTest" time="0.004"/>
+  <testcase name="testSentMessageStore" classname="com.mycompany.login.MessageTest" time="0.012"/>
+  <testcase name="testSentMessageDisregard" classname="com.mycompany.login.MessageTest" time="0.002"/>
 </testsuite>

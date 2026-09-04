@@ -1,16 +1,13 @@
-package com.mycompany.MessageTest.java;
+package com.mycompany.login;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.mycompany.login.Login;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// LoginTest: unit tests for the Login class.
 public class LoginTest {
 
     private Login login;
@@ -18,11 +15,11 @@ public class LoginTest {
     @BeforeEach
     public void setUp() {
         login = new Login();
-        // Register default valid test user for authentication tests
+        // Set up a valid user.
         login.registerUser("Kyle", "Smith", "kyl_1", "Ch&&sec@ke99!", "+27838968976");
     }
 
-
+    // Username messages.
     @Test
     @DisplayName("assertEquals: Username is correctly formatted message")
     public void testUsernameCorrectlyFormattedMessage() {
@@ -41,6 +38,7 @@ public class LoginTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
+    // Password messages.
     @Test
     @DisplayName("assertEquals: Password meets complexity requirements message")
     public void testPasswordMeetsComplexityMessage() {
@@ -59,6 +57,7 @@ public class LoginTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
+    // Phone messages.
     @Test
     @DisplayName("assertEquals: Cell phone is correctly formatted message")
     public void testCellPhoneCorrectlyFormattedMessage() {
@@ -77,6 +76,7 @@ public class LoginTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
+    // Login status.
     @Test
     @DisplayName("assertEquals: Login return status when login is successful")
     public void testReturnLoginStatusSuccess() {
@@ -93,10 +93,7 @@ public class LoginTest {
         assertEquals(expected, actual);
     }
 
-    // =========================================================================
-    // SECTION 2: assertTrue / assertFalse Tests (Pages 9-10)
-    // =========================================================================
-
+    // True and false checks.
     @Test
     @DisplayName("assertTrue: Login Successful")
     public void testLoginSuccessful() {

@@ -2,14 +2,6 @@ package com.mycompany.login;
 
 import java.util.Scanner;
 
-/**
- * Main application class providing a pure console interface for both Part 1
- * (Registration and Login) and Part 2 (QuickChat Messaging system).
- *
- * References:
- * 1. Schildt, H. (2018) 'Java: The Complete Reference', 11th edn. New York: McGraw-Hill Education.
- * 2. Deitel, P. and Deitel, H. (2017) 'Java How to Program, Early Objects', 11th edn. Boston: Pearson.
- */
 public class Main {
 
     public static void main(String[] args) {
@@ -21,14 +13,14 @@ public class Main {
         System.out.println("             Part 1: User Registration            ");
         System.out.println("==================================================");
 
-        // --- Step 1: User Registration ---
+        // User registration.
         System.out.print("Enter your First Name: ");
         String firstName = scanner.nextLine().trim();
 
         System.out.print("Enter your Last Name: ");
         String lastName = scanner.nextLine().trim();
 
-        // Username validation loop
+        // Username loop.
         String username;
         while (true) {
             System.out.print("Enter Username (must contain '_' and <= 5 characters): ");
@@ -41,7 +33,7 @@ public class Main {
             }
         }
 
-        // Password complexity validation loop
+        // Password loop.
         String password;
         while (true) {
             System.out.print("Enter Password (min 8 chars, uppercase, digit, special char): ");
@@ -54,7 +46,7 @@ public class Main {
             }
         }
 
-        // Cell phone number validation loop
+        // Cell number loop.
         String cellPhoneNumber;
         while (true) {
             System.out.print("Enter SA Cell Phone Number (e.g., +27838968976): ");
@@ -67,11 +59,11 @@ public class Main {
             }
         }
 
-        // Complete registration
+        // Finish registration.
         userAccount.registerUser(firstName, lastName, username, password, cellPhoneNumber);
         System.out.println("\n>>> Registration completed successfully! <<<\n");
 
-        // --- Step 2: User Login ---
+        // User login.
         System.out.println("==================================================");
         System.out.println("                   USER LOGIN                     ");
         System.out.println("==================================================");
@@ -93,7 +85,7 @@ public class Main {
             }
         }
 
-        // --- Step 3: Part 2 QuickChat Feature Menu ---
+        // QuickChat menu.
         System.out.println("\n==================================================");
         System.out.println("              Welcome to QuickChat                ");
         System.out.println("==================================================");
@@ -131,12 +123,7 @@ public class Main {
         scanner.close();
     }
 
-    /**
-     * Handles the message creation and sending process for the requested number of messages.
-     * Uses a for loop to process each message as specified in Part 2.
-     *
-     * @param scanner The active Scanner object
-     */
+    // Send message flow.
     private static void handleSendMessages(Scanner scanner) {
         int numMessages = 0;
         while (true) {
@@ -153,15 +140,15 @@ public class Main {
             }
         }
 
-        // For loop to process the defined number of messages
+        // Run message loop.
         for (int i = 0; i < numMessages; i++) {
             System.out.println("\n--- Entering Message " + (i + 1) + " of " + numMessages + " ---");
 
-            // Generate unique 10-digit message ID
+            // Create a message id.
             String messageId = Message.generateMessageID();
             int messageNumber = i;
 
-            // Prompt and validate recipient cell number
+            // Validate recipient.
             String recipient;
             Message tempValidator = new Message();
             while (true) {
@@ -174,7 +161,7 @@ public class Main {
                 }
             }
 
-            // Prompt and validate message text
+            // Validate text.
             String messageText;
             while (true) {
                 System.out.print("Enter message (max 250 characters): ");
@@ -186,10 +173,10 @@ public class Main {
                 }
             }
 
-            // Create Message object and compute hash
+            // Build message.
             Message message = new Message(messageId, messageNumber, recipient, messageText);
 
-            // Action menu for sending, disregarding, or storing the message
+            // Message action menu.
             System.out.println("\nChoose action for this message:");
             System.out.println("1) Send Message");
             System.out.println("2) Disregard Message");
@@ -206,13 +193,13 @@ public class Main {
             String actionFeedback = message.SentMessage(actionChoice);
             System.out.println("\n" + actionFeedback);
 
-            // Display full message details in specified order: Message ID, Message Hash, Recipient, Message
+            // Show message details.
             System.out.println("\n--- Message Details ---");
             System.out.println(message.printMessages());
             System.out.println("-----------------------");
         }
 
-        // Display accumulated total sent messages
+        // Show total count.
         Message tracker = new Message();
         System.out.println("\n==================================================");
         System.out.println("Total messages sent so far: " + tracker.returnTotalMessagess());

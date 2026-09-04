@@ -11,15 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Unit Test Suite for Message class verifying requirements from Pages 14-16
- * of the assignment specification.
- *
- * References:
- * 1. JUnit 5 User Guide (2024). Available at: https://junit.org/junit5/docs/current/user-guide/
- *    (Accessed: 4 September 2026).
- * 2. Hunt, A. and Thomas, D. (2015) 'Pragmatic Unit Testing in Java 8 with JUnit', Pragmatic Bookshelf.
- */
 public class MessageTest {
 
     private Message message;
@@ -30,10 +21,7 @@ public class MessageTest {
         message = new Message();
     }
 
-    // =========================================================================
-    // SECTION 1: Message Length Tests (Page 15)
-    // =========================================================================
-
+    // Message length checks.
     @Test
     @DisplayName("assertEquals: Message length within 250 characters succeeds")
     public void testMessageLengthSuccess() {
@@ -46,7 +34,6 @@ public class MessageTest {
     @Test
     @DisplayName("assertEquals: Message exceeding 250 characters returns descriptive failure")
     public void testMessageLengthExceeded() {
-        // Create a 260-character message (exceeds by 10)
         StringBuilder longMsg = new StringBuilder();
         for (int i = 0; i < 260; i++) {
             longMsg.append("a");
@@ -57,10 +44,7 @@ public class MessageTest {
         assertEquals(expected, actual, "Overly long message should report exact excess characters.");
     }
 
-    // =========================================================================
-    // SECTION 2: Recipient Cell Number Tests (Page 15)
-    // =========================================================================
-
+    // Recipient checks.
     @Test
     @DisplayName("assertEquals: Correctly formatted recipient cell phone number")
     public void testRecipientCellCorrect() {
@@ -81,10 +65,7 @@ public class MessageTest {
         assertFalse(message.isRecipientCellValid(invalidNumber));
     }
 
-    // =========================================================================
-    // SECTION 3: Message Hash Generation Tests (Page 15)
-    // =========================================================================
-
+    // Hash checks.
     @Test
     @DisplayName("assertEquals: Message Hash for Test Case 1")
     public void testMessageHashTestCase1() {
@@ -118,10 +99,7 @@ public class MessageTest {
         }
     }
 
-    // =========================================================================
-    // SECTION 4: Message ID Verification (Page 16)
-    // =========================================================================
-
+    // Message ID checks.
     @Test
     @DisplayName("assertEquals & assertTrue: Check Message ID is not more than 10 characters")
     public void testCheckMessageID() {
@@ -133,10 +111,7 @@ public class MessageTest {
         assertFalse(message.checkMessageID(""), "Empty ID should fail.");
     }
 
-    // =========================================================================
-    // SECTION 5: SentMessage Action Option Tests (Page 16)
-    // =========================================================================
-
+    // Message action tests.
     @Test
     @DisplayName("assertEquals: SentMessage Option 1 - Send Message")
     public void testSentMessageSend() {
@@ -161,27 +136,25 @@ public class MessageTest {
         assertEquals("Stored", message.getStatus());
     }
 
-    // =========================================================================
-    // SECTION 6: Total Messages Count & Print Tests (Page 13-14)
-    // =========================================================================
-
+    // Total counts.
     @Test
     @DisplayName("assertEquals: Total sent messages accumulated count")
     public void testReturnTotalMessages() {
         assertEquals(0, message.returnTotalMessagess(), "Initial sent count should be 0.");
 
         Message m1 = new Message("0012345678", 0, "+27718693002", "Message 1");
-        m1.SentMessage(1); // Sent
+        m1.SentMessage(1);
 
         Message m2 = new Message("0012345679", 1, "+27718693002", "Message 2");
-        m2.SentMessage(2); // Disregarded
+        m2.SentMessage(2);
 
         Message m3 = new Message("0012345680", 2, "+27718693002", "Message 3");
-        m3.SentMessage(1); // Sent
+        m3.SentMessage(1);
 
         assertEquals(2, message.returnTotalMessagess(), "Total sent count should equal 2.");
     }
 
+    // Message printing.
     @Test
     @DisplayName("assertEquals: printMessages formatted details")
     public void testPrintMessages() {
@@ -194,12 +167,7 @@ public class MessageTest {
         assertTrue(details.contains("Message: Hi Mike, can you join us for dinner tonight?"));
     }
 
-    
-
-    // =========================================================================
-    // SECTION 7: JSON File Storage Tests (Page 13-14)
-    // =========================================================================
-
+    // JSON save checks.
     @Test
     @DisplayName("assertTrue: Store message to JSON file")
     public void testStoreMessageToJson() {
@@ -216,7 +184,6 @@ public class MessageTest {
         assertTrue(testFile.exists(), "JSON file should be created on disk.");
         assertTrue(testFile.length() > 0, "JSON file should not be empty.");
 
-        // Cleanup
         testFile.delete();
     }
 }
