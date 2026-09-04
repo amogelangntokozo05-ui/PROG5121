@@ -67,8 +67,6 @@ public class Main {
             }
         }
 
-        
-
         // Complete registration
         userAccount.registerUser(firstName, lastName, username, password, cellPhoneNumber);
         System.out.println("\n>>> Registration completed successfully! <<<\n");
@@ -133,8 +131,6 @@ public class Main {
         scanner.close();
     }
 
-    
-
     /**
      * Handles the message creation and sending process for the requested number of messages.
      * Uses a for loop to process each message as specified in Part 2.
@@ -190,7 +186,6 @@ public class Main {
                 }
             }
 
-            
             // Create Message object and compute hash
             Message message = new Message(messageId, messageNumber, recipient, messageText);
 
