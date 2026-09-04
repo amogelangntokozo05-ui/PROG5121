@@ -189,3 +189,55 @@ public class Login {
 
       return hasCapital && hasNumber && hasSpecial;
    }
+
+
+   /**
+    * Checks the currently stored password.
+    *
+    * @return true if complex enough, false otherwise
+    */
+   public boolean checkPasswordComplexity() {
+      return checkPasswordComplexity(this.password);
+   }
+
+   /**
+    * Checks whether the cell phone number is correctly formatted using regex:
+    * Contains the international country code (+27) followed by the phone number
+    * (not more than 10 digits long).
+    *
+    * References:
+    * Regex validation referencing Oracle Java Pattern Documentation & ITU E.164
+    * international numbering standards.
+    *
+    * @param cellPhoneNumber The cell phone number string to validate
+    * @return true if matches valid international SA phone format, false otherwise
+    */
+   public boolean checkCellPhoneNumber(String cellPhoneNumber) {
+      if (cellPhoneNumber == null || cellPhoneNumber.trim().isEmpty()) {
+         return false;
+      }
+      Matcher matcher = PHONE_PATTERN.matcher(cellPhoneNumber.trim());
+      return matcher.matches();
+   }
+
+   /**
+    * Checks the currently stored cell phone number.
+    *
+    * @return true if matches valid international SA phone format, false otherwise
+    */
+   public boolean checkCellPhoneNumber() {
+      return checkCellPhoneNumber(this.cellPhoneNumber);
+   }
+
+   /**
+    * Returns the validation message for a username.
+    *
+    * @param username The username to evaluate
+    * @return Success message or descriptive error message
+    */
+   public String validateUsernameMessage(String username) {
+      if (checkUserName(username)) {
+         return MSG_USERNAME_SUCCESS;
+      }
+      return MSG_USERNAME_ERROR;
+   }
