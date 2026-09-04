@@ -87,3 +87,37 @@ public class MessageReportTest {
     // =========================================================================
     // Test 5: Delete a message using a message hash (Page 19)
     // =========================================================================
+
+    
+    @Test
+    @DisplayName("assertEquals: Delete a message using message hash")
+    public void testDeleteMessageUsingHash() {
+        String hashToDelete = "00:1:WHERETIME";
+        String expectedResponse = "Message: \"Where are you? You are late! I have asked you to be on time.\" successfully deleted.";
+        String actualResponse = manager.deleteMessageByHash(hashToDelete);
+
+        assertEquals(expectedResponse, actualResponse);
+
+        // Verify it was removed from arrays
+        String searchResult = manager.searchByMessageId("0022222222");
+        assertEquals("Message ID not found.", searchResult, "Deleted message ID should no longer be found.");
+    }
+
+    // =========================================================================
+    // Test 6: Display Report (Page 19)
+    // =========================================================================
+
+    @Test
+    @DisplayName("assertEquals / assertTrue: Display report showing Message Hash, Recipient, Message")
+    public void testDisplayReport() {
+        String report = manager.displayReport();
+
+        assertTrue(report.contains("MESSAGE REPORT"), "Report must include header.");
+        assertTrue(report.contains("00:0:DIDCAKE"), "Report must contain Message Hash.");
+        assertTrue(report.contains("+27834557896"), "Report must contain Recipient.");
+        assertTrue(report.contains("Did you get the cake?"), "Report must contain Message payload.");
+    }
+
+    // =========================================================================
+    // Test 7: Read JSON file into array (Page 26 Rubric)
+    // =========================================================================
