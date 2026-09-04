@@ -85,3 +85,66 @@ public class Message {
         this.messageHash = createMessageHash(messageId, messageNumber, messageText);
         this.status = "Pending";
     }
+
+    // --- Getters and Setters ---
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+        if (this.messageText != null && !this.messageText.isEmpty()) {
+            this.messageHash = createMessageHash(this.messageId, this.messageNumber, this.messageText);
+        }
+    }
+
+    public int getMessageNumber() {
+        return messageNumber;
+    }
+
+    public void setMessageNumber(int messageNumber) {
+        this.messageNumber = messageNumber;
+        if (this.messageId != null && this.messageText != null) {
+            this.messageHash = createMessageHash(this.messageId, this.messageNumber, this.messageText);
+        }
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
+        if (this.messageId != null && !this.messageId.isEmpty()) {
+            this.messageHash = createMessageHash(this.messageId, this.messageNumber, this.messageText);
+        }
+    }
+
+    public String getMessageHash() {
+        return messageHash;
+    }
+
+    public void setMessageHash(String messageHash) {
+        this.messageHash = messageHash;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public static List<Message> getSentMessagesList() {
+        return sentMessagesList;
+    }
