@@ -200,3 +200,92 @@ public class MessageManager {
         }
         return longest;
     }
+
+    
+
+    /**
+     * Requirement 2.c: Search for a message ID and display corresponding recipient and message.
+     *
+     * @param targetId The message ID to search for
+     * @return Matching message text or recipient & message description
+     */
+    public String searchByMessageId(String targetId) {
+        if (targetId == null || targetId.trim().isEmpty()) {
+            return "Message ID not found.";
+        }
+
+        for (int i = 0; i < messageIds.size(); i++) {
+            if (messageIds.get(i).equalsIgnoreCase(targetId.trim())) {
+                return allMessageObjects.get(i).getMessageText();
+            }
+        }
+        return "Message ID not found.";
+    }
+
+    /**
+     * Requirement 2.d: Search all messages sent or stored for a particular recipient.
+     *
+     * @param targetRecipient The recipient phone number to search for
+     * @return Formatted string of all matching message contents
+     */
+    public String searchByRecipient(String targetRecipient) {
+        if (targetRecipient == null || targetRecipient.trim().isEmpty()) {
+            return "No messages found for recipient.";
+        }
+
+        List<String> matched = new ArrayList<>();
+        for (int i = 0; i < recipients.size(); i++) {
+            if (recipients.get(i).equalsIgnoreCase(targetRecipient.trim())) {
+                String flag = flags.get(i);
+                if ("Sent".equalsIgnoreCase(flag) || "Stored".equalsIgnoreCase(flag)) {
+                    matched.add("\"" + allMessageObjects.get(i).getMessageText() + "\"");
+                }
+            }
+        }
+
+        if (matched.isEmpty()) {
+            return "No messages found for recipient: " + targetRecipient;
+        }
+
+        return String.join(" ", matched);
+    }
+
+    /**
+     * Requirement 2.e: Delete a message using the message hash.
+     * Removes the message across all parallel arrays and lists.
+     *
+     * @param hash The Message Hash of the message to delete
+     * @return Confirmation message: "Message: \"...\" successfully deleted."
+     */
+    public String deleteMessageByHash(String hash) {
+        if (hash == null || hash.trim().isEmpty()) {
+            return "Message hash not found.";
+        }
+
+        for (int i = 0; i < messageHashes.size(); i++) {
+            if (messageHashes.get(i).equalsIgnoreCase(hash.trim())) {
+                String msgText = allMessageObjects.get(i).getMessageText();
+                String flag = flags.get(i);
+
+                // Remove from specific category lists
+                if ("Sent".equalsIgnoreCase(flag)) {
+                    sentMessages.remove(msgText);
+                } else if ("Disregard".equalsIgnoreCase(flag) || "Disregarded".equalsIgnoreCase(flag)) {
+                    disregardedMessages.remove(msgText);
+                } else if ("Stored".equalsIgnoreCase(flag)) {
+                    storedMessages.remove(msgText);
+                }
+
+                // Remove from parallel arrays
+                messageIds.remove(i);
+                messageHashes.remove(i);
+                recipients.remove(i);
+                flags.remove(i);
+                allMessageObjects.remove(i);
+
+                return "Message: \"" + msgText + "\" successfully deleted.";
+            }
+        }
+
+        return "Message with hash " + hash + " not found.";
+    }
