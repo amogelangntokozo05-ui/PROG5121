@@ -241,3 +241,122 @@ public class Login {
       }
       return MSG_USERNAME_ERROR;
    }
+
+   /**
+    * Returns the validation message for a password.
+    *
+    * @param password The password to evaluate
+    * @return Success message or descriptive error message
+    */
+   public String validatePasswordMessage(String password) {
+      if (checkPasswordComplexity(password)) {
+         return MSG_PASSWORD_SUCCESS;
+      }
+      return MSG_PASSWORD_ERROR;
+   }
+
+   /**
+    * Returns the validation message for a cell phone number.
+    *
+    * @param cellNumber The cell phone number to evaluate
+    * @return Success message or descriptive error message
+    */
+   public String validateCellPhoneMessage(String cellNumber) {
+      if (checkCellPhoneNumber(cellNumber)) {
+         return MSG_PHONE_SUCCESS;
+      }
+      return MSG_PHONE_ERROR;
+   }
+
+   /**
+    * Registers the user with provided information if all formatting conditions are
+    * met.
+    * Returns registration feedback messaging indicating errors or successful
+    * registration.
+    *
+    * @param firstName       User's first name
+    * @param lastName        User's last name
+    * @param username        User's username
+    * @param password        User's password
+    * @param cellPhoneNumber User's cell phone number
+    * @return Status message indicating outcome of registration
+    */
+   public String registerUser(String firstName, String lastName, String username, String password,
+         String cellPhoneNumber) {
+      if (!checkUserName(username)) {
+         return MSG_USERNAME_ERROR;
+      }
+
+      if (!checkPasswordComplexity(password)) {
+         return MSG_PASSWORD_ERROR;
+      }
+
+      if (!checkCellPhoneNumber(cellPhoneNumber)) {
+         return MSG_PHONE_ERROR;
+      }
+
+      // Store details once all validation checks succeed
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.username = username;
+      this.password = password;
+      this.cellPhoneNumber = cellPhoneNumber;
+
+      return MSG_USERNAME_SUCCESS + "\n" + MSG_PASSWORD_SUCCESS + "\n" + MSG_PHONE_SUCCESS;
+   }
+
+   /**
+    * Overloaded registerUser using instance fields.
+    *
+    * @return Status message indicating outcome of registration
+    */
+   public String registerUser() {
+      return registerUser(this.firstName, this.lastName, this.username, this.password, this.cellPhoneNumber);
+   }
+
+   // --- Login & Authentication Methods ---
+
+   /**
+    * Verifies that the entered username and password match the stored credentials.
+    *
+    * @param enteredUsername Entered username
+    * @param enteredPassword Entered password
+    * @return true if credentials match registered user, false otherwise
+    */
+   public boolean loginUser(String enteredUsername, String enteredPassword) {
+      if (enteredUsername == null || enteredPassword == null) {
+         return false;
+      }
+      if (this.username == null || this.password == null || this.username.isEmpty() || this.password.isEmpty()) {
+         return false;
+      }
+      return this.username.equals(enteredUsername) && this.password.equals(enteredPassword);
+   }
+
+   /**
+    * Returns the appropriate login message based on whether authentication was
+    * successful.
+    *
+    * @param loginSuccess Flag indicating whether login succeeded
+    * @return Greeting message if true, error message if false
+    */
+   public String returnLoginStatus(boolean loginSuccess) {
+      if (loginSuccess) {
+         return "Welcome " + this.firstName + ", " + this.lastName + " it is great to see you again.";
+      }
+      return MSG_LOGIN_FAILED;
+   }
+
+   /**
+    * Authenticates the user with username and password and returns the login
+    * status message.
+    *
+    * @param enteredUsername Entered username
+    * @param enteredPassword Entered password
+    * @return Welcome message or failure message
+    */
+   public String returnLoginStatus(String enteredUsername, String enteredPassword) {
+      boolean success = loginUser(enteredUsername, enteredPassword);
+      return returnLoginStatus(success);
+   }
+}
