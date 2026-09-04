@@ -140,3 +140,63 @@ public class MessageManager {
         m5.setMessageHash("00:4:OKYOU");
         addMessage(m5, "Stored");
     }
+
+    
+    /**
+     * Clears all parallel arrays and collections.
+     */
+    public void clearAll() {
+        sentMessages.clear();
+        disregardedMessages.clear();
+        storedMessages.clear();
+        messageHashes.clear();
+        messageIds.clear();
+        recipients.clear();
+        flags.clear();
+        allMessageObjects.clear();
+    }
+
+    // --- Part 3 Requirements ---
+
+    /**
+     * Requirement 2.a: Display sender and recipient of all stored messages.
+     *
+     * @param defaultSender The name of the sender (e.g. current logged in user)
+     * @return Formatted string displaying sender and recipient for all stored messages
+     */
+    public String displaySenderAndRecipientOfStoredMessages(String defaultSender) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("--- Stored Messages: Senders and Recipients ---\n");
+        boolean found = false;
+        for (int i = 0; i < flags.size(); i++) {
+            if ("Stored".equalsIgnoreCase(flags.get(i))) {
+                sb.append("Sender: ").append(defaultSender)
+                  .append(" | Recipient: ").append(recipients.get(i))
+                  .append(" | Message: \"").append(allMessageObjects.get(i).getMessageText()).append("\"\n");
+                found = true;
+            }
+        }
+        if (!found) {
+            sb.append("No stored messages found.\n");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Requirement 2.b: Display the longest stored message (or longest message across dataset).
+     *
+     * @return The text of the longest message
+     */
+    public String displayLongestMessage() {
+        if (allMessageObjects.isEmpty()) {
+            return "No messages available.";
+        }
+
+        String longest = "";
+        for (Message msg : allMessageObjects) {
+            if (msg.getMessageText() != null && msg.getMessageText().length() > longest.length()) {
+                longest = msg.getMessageText();
+            }
+        }
+        return longest;
+    }
