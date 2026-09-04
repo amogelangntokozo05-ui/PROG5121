@@ -318,3 +318,112 @@ public class Message {
                 return "Invalid choice.";
         }
     }
+
+    /**
+     * Overloaded SentMessage accepting string choice.
+     *
+     * @param choice String choice description or number
+     * @return Feedback message
+     */
+    public String SentMessage(String choice) {
+        if (choice == null) return "Invalid choice.";
+        String trimmed = choice.trim().toLowerCase();
+        if (trimmed.contains("send") || trimmed.equals("1")) {
+            return SentMessage(1);
+        } else if (trimmed.contains("disregard") || trimmed.contains("discard") || trimmed.contains("delete") || trimmed.equals("2")) {
+            return SentMessage(2);
+        } else if (trimmed.contains("store") || trimmed.equals("3")) {
+            return SentMessage(3);
+        }
+        return "Invalid choice.";
+    }
+
+    /**
+     * Returns formatted details of the message in the order specified on page 13:
+     * Message ID, Message Hash, Recipient, Message.
+     *
+     * @return Formatted multi-line string of message details
+     */
+    public String printMessages() {
+        return "Message ID: " + this.messageId + "\n" +
+               "Message Hash: " + this.messageHash + "\n" +
+               "Recipient: " + this.recipient + "\n" +
+               "Message: " + this.messageText;
+    }
+
+    /**
+     * Returns the total accumulated number of messages sent during the application lifecycle.
+     *
+     * @return Total number of sent messages
+     */
+    public int returnTotalMessagess() {
+        return totalMessagesSent;
+    }
+
+    /**
+     * Static accessor for total messages sent.
+     *
+     * @return Total number of sent messages
+     */
+    public static int getTotalMessagesSent() {
+        return totalMessagesSent;
+    }
+
+    /**
+     * Resets the total messages sent count (primarily for unit testing isolation).
+     */
+    public static void resetTotalMessagesSent() {
+        totalMessagesSent = 0;
+        sentMessagesList.clear();
+    }
+
+    // --- JSON Storage ---
+
+    /**
+     * Stores this message in a JSON file (messages.json).
+     * Reads existing messages, appends current message, and writes back formatted JSON.
+     *
+     * References:
+     * Google Gson documentation for JSON serialization and file persistence:
+     * https://github.com/google/gson
+     *
+     * @param filePath File path to store the JSON data
+     * @return true if stored successfully, false if an error occurred
+     */
+    public boolean storeMessage(String filePath) {
+        File file = new File(filePath);
+        List<Message> messageList = new ArrayList<>();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        if (file.exists() && file.length() > 0) {
+            try (FileReader reader = new FileReader(file)) {
+                Type listType = new TypeToken<ArrayList<Message>>() {}.getType();
+                List<Message> existing = gson.fromJson(reader, listType);
+                if (existing != null) {
+                    messageList.addAll(existing);
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading existing JSON file: " + e.getMessage());
+            }
+        }
+
+        messageList.add(this);
+
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(messageList, writer);
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error writing to JSON file: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Stores this message in the default JSON file ("messages.json").
+     *
+     * @return true if stored successfully, false otherwise
+     */
+    public boolean storeMessage() {
+        return storeMessage("messages.json");
+    }
+}
