@@ -131,3 +131,61 @@ public class Login {
       this.cellPhoneNumber = cellPhoneNumber;
    }
 
+   // --- Validation Methods ---
+
+   /**
+    * Checks whether the given username meets requirements:
+    * 1. Must contain an underscore (_).
+    * 2. Must be no more than 5 characters in length.
+    *
+    * @param username The username to validate
+    * @return true if valid, false otherwise
+    */
+   public boolean checkUserName(String username) {
+      if (username == null || username.trim().isEmpty()) {
+         return false;
+      }
+      return username.contains("_") && username.length() <= 5;
+   }
+
+   /**
+    * Checks the currently stored username.
+    *
+    * @return true if valid, false otherwise
+    */
+   public boolean checkUserName() {
+      return checkUserName(this.username);
+   }
+
+   /**
+    * Checks whether the given password meets complexity rules:
+    * 1. At least 8 characters long.
+    * 2. Contains at least one capital (uppercase) letter.
+    * 3. Contains at least one number (digit).
+    * 4. Contains at least one special character.
+    *
+    * @param password The password to validate
+    * @return true if complex enough, false otherwise
+    */
+   public boolean checkPasswordComplexity(String password) {
+      if (password == null || password.length() < 8) {
+         return false;
+      }
+
+      boolean hasCapital = false;
+      boolean hasNumber = false;
+      boolean hasSpecial = false;
+
+      for (int i = 0; i < password.length(); i++) {
+         char ch = password.charAt(i);
+         if (Character.isUpperCase(ch)) {
+            hasCapital = true;
+         } else if (Character.isDigit(ch)) {
+            hasNumber = true;
+         } else if (!Character.isLetterOrDigit(ch) && !Character.isWhitespace(ch)) {
+            hasSpecial = true;
+         }
+      }
+
+      return hasCapital && hasNumber && hasSpecial;
+   }
