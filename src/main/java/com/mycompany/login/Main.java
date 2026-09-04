@@ -66,3 +66,126 @@ public class Main {
                 System.out.println(Login.MSG_PHONE_ERROR);
             }
         }
+
+        
+
+        // Complete registration
+        userAccount.registerUser(firstName, lastName, username, password, cellPhoneNumber);
+        System.out.println("\n>>> Registration completed successfully! <<<\n");
+
+        // --- Step 2: User Login ---
+        System.out.println("==================================================");
+        System.out.println("                   USER LOGIN                     ");
+        System.out.println("==================================================");
+
+        boolean loggedIn = false;
+        while (!loggedIn) {
+            System.out.print("Enter Username: ");
+            String loginUsername = scanner.nextLine().trim();
+
+            System.out.print("Enter Password: ");
+            String loginPassword = scanner.nextLine().trim();
+
+            loggedIn = userAccount.loginUser(loginUsername, loginPassword);
+            String statusMessage = userAccount.returnLoginStatus(loggedIn);
+            System.out.println(statusMessage);
+
+            if (!loggedIn) {
+                System.out.println("Please check your credentials and try again.\n");
+            }
+        }
+
+        // --- Step 3: Part 2 QuickChat Feature Menu ---
+        System.out.println("\n==================================================");
+        System.out.println("              Welcome to QuickChat                ");
+        System.out.println("==================================================");
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\nPlease choose an option from the menu:");
+            System.out.println("Option 1) Send Messages");
+            System.out.println("Option 2) Show recently sent messages");
+            System.out.println("Option 3) Quit");
+            System.out.print("Enter your choice (1-3): ");
+
+            String choiceInput = scanner.nextLine().trim();
+
+            switch (choiceInput) {
+                case "1":
+                    handleSendMessages(scanner);
+                    break;
+
+                case "2":
+                    System.out.println("Coming Soon.");
+                    break;
+
+                case "3":
+                    System.out.println("Exiting QuickChat. Thank you for using the application!");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Please choose 1, 2, or 3.");
+                    break;
+            }
+        }
+
+        scanner.close();
+    }
+
+    
+
+    /**
+     * Handles the message creation and sending process for the requested number of messages.
+     * Uses a for loop to process each message as specified in Part 2.
+     *
+     * @param scanner The active Scanner object
+     */
+    private static void handleSendMessages(Scanner scanner) {
+        int numMessages = 0;
+        while (true) {
+            System.out.print("\nHow many messages would you like to enter? ");
+            try {
+                numMessages = Integer.parseInt(scanner.nextLine().trim());
+                if (numMessages > 0) {
+                    break;
+                } else {
+                    System.out.println("Please enter a positive integer greater than 0.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please enter a valid integer.");
+            }
+        }
+
+        // For loop to process the defined number of messages
+        for (int i = 0; i < numMessages; i++) {
+            System.out.println("\n--- Entering Message " + (i + 1) + " of " + numMessages + " ---");
+
+            // Generate unique 10-digit message ID
+            String messageId = Message.generateMessageID();
+            int messageNumber = i;
+
+            // Prompt and validate recipient cell number
+            String recipient;
+            Message tempValidator = new Message();
+            while (true) {
+                System.out.print("Enter recipient cell number (with international code e.g. +27718693002): ");
+                recipient = scanner.nextLine().trim();
+                String validationResponse = tempValidator.checkRecipientCell(recipient);
+                System.out.println(validationResponse);
+                if (tempValidator.isRecipientCellValid(recipient)) {
+                    break;
+                }
+            }
+
+            // Prompt and validate message text
+            String messageText;
+            while (true) {
+                System.out.print("Enter message (max 250 characters): ");
+                messageText = scanner.nextLine().trim();
+                String lengthValidation = tempValidator.validateMessageLength(messageText);
+                System.out.println(lengthValidation);
+                if (messageText.length() <= 250) {
+                    break;
+                }
+            }
