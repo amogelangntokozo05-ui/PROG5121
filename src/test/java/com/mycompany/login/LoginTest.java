@@ -101,7 +101,7 @@ public class LoginTest {
         assertEquals(expected, actual);
     }
 
-        // =========================================================================
+    // =========================================================================
     // SECTION 2: assertTrue / assertFalse Tests (Pages 9-10)
     // =========================================================================
 
@@ -142,3 +142,28 @@ public class LoginTest {
         boolean result = login.checkPasswordComplexity(testData);
         assertTrue(result, "Password with >= 8 chars, uppercase, digit, and special char should return true.");
     }
+
+    @Test
+    @DisplayName("assertFalse: Password does not meet complexity requirements")
+    public void testPasswordDoesNotMeetComplexity() {
+        String testData = "password";
+        boolean result = login.checkPasswordComplexity(testData);
+        assertFalse(result, "Password missing uppercase, digit, or special character should return false.");
+    }
+
+    @Test
+    @DisplayName("assertTrue: Cell phone number correctly formatted")
+    public void testCellPhoneNumberCorrectlyFormatted() {
+        String testData = "+27838968976";
+        boolean result = login.checkCellPhoneNumber(testData);
+        assertTrue(result, "SA cell number with +27 country code and 9-10 digits should return true.");
+    }
+
+    @Test
+    @DisplayName("assertFalse: Cell phone number incorrectly formatted")
+    public void testCellPhoneNumberIncorrectlyFormatted() {
+        String testData = "08966553";
+        boolean result = login.checkCellPhoneNumber(testData);
+        assertFalse(result, "Phone number without international country code should return false.");
+    }
+}
