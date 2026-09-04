@@ -80,3 +80,63 @@ public class MessageManager {
     public List<Message> getAllMessageObjects() {
         return allMessageObjects;
     }
+
+    
+
+    // --- Message Addition & Population ---
+
+    /**
+     * Adds a message to the manager and populates the parallel arrays based on its flag.
+     *
+     * @param msg The Message object
+     * @param flag "Sent", "Stored", or "Disregard"
+     */
+    public void addMessage(Message msg, String flag) {
+        if (msg == null) return;
+
+        allMessageObjects.add(msg);
+        messageIds.add(msg.getMessageId());
+        messageHashes.add(msg.getMessageHash());
+        recipients.add(msg.getRecipient());
+        flags.add(flag);
+
+        if ("Sent".equalsIgnoreCase(flag)) {
+            sentMessages.add(msg.getMessageText());
+        } else if ("Disregard".equalsIgnoreCase(flag) || "Disregarded".equalsIgnoreCase(flag)) {
+            disregardedMessages.add(msg.getMessageText());
+        } else if ("Stored".equalsIgnoreCase(flag)) {
+            storedMessages.add(msg.getMessageText());
+        }
+    }
+
+    /**
+     * Convenience method to populate test data as specified on Page 18 of the assignment.
+     */
+    public void populateStandardTestData() {
+        clearAll();
+
+        // Test Data Message 1: Recipient +27834557896, Message: "Did you get the cake?", Flag: Sent
+        Message m1 = new Message("0011111111", 0, "+27834557896", "Did you get the cake?");
+        m1.setMessageHash("00:0:DIDCAKE");
+        addMessage(m1, "Sent");
+
+        // Test Data Message 2: Recipient +27838884567, Message: "Where are you? You are late! I have asked you to be on time.", Flag: Stored
+        Message m2 = new Message("0022222222", 1, "+27838884567", "Where are you? You are late! I have asked you to be on time.");
+        m2.setMessageHash("00:1:WHERETIME");
+        addMessage(m2, "Stored");
+
+        // Test Data Message 3: Recipient +27834484567, Message: "Yohoooo, I am at your gate.", Flag: Disregard
+        Message m3 = new Message("0033333333", 2, "+27834484567", "Yohoooo, I am at your gate.");
+        m3.setMessageHash("00:2:YOHOOOOGATE");
+        addMessage(m3, "Disregard");
+
+        // Test Data Message 4: Developer / ID: 0838884567, Message: "It is dinner time !", Flag: Sent
+        Message m4 = new Message("0838884567", 3, "0838884567", "It is dinner time !");
+        m4.setMessageHash("08:3:ITTIME");
+        addMessage(m4, "Sent");
+
+        // Test Data Message 5: Recipient +27838884567, Message: "Ok, I am leaving without you.", Flag: Stored
+        Message m5 = new Message("0055555555", 4, "+27838884567", "Ok, I am leaving without you.");
+        m5.setMessageHash("00:4:OKYOU");
+        addMessage(m5, "Stored");
+    }
