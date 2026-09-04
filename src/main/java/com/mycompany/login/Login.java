@@ -3,6 +3,25 @@ package com.mycompany.login;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The Login class handles user registration, input validation,
+ * password complexity verification, South African international cell phone
+ * number
+ * verification, and user authentication for the console chat application.
+ *
+ * References:
+ * 1. Oracle (2024) 'Class Pattern - Regular Expressions in Java SE 21', Oracle
+ * Documentation.
+ * Available at:
+ * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html
+ * (Accessed: 4 September 2026).
+ * 2. Goyvaerts, J. and Levithan, S. (2012) 'Regular Expressions Cookbook', 2nd
+ * edn. Sebastopol: O'Reilly Media.
+ * 3. International Telecommunication Union (2020) 'National Numbering Plans:
+ * South Africa (country code +27)',
+ * ITU-T Recommendation E.164. Available at: https://www.itu.int/ (Accessed: 4
+ * September 2026).
+ */
 public class Login {
 
    // Instance variables to store registered user details
@@ -14,7 +33,13 @@ public class Login {
 
    /**
     * Regular expression pattern for validating South African cell phone numbers.
-   
+    * Criteria: Must start with international country code (+27) followed by 9 to
+    * 10 digits.
+    * Example valid number: +27838968976
+    *
+    * Reference Attribution:
+    * Regex Pattern design adapted according to ITU-T E.164 standard for South
+    * African (+27) numbering format.
     */
    private static final String SA_PHONE_REGEX = "^\\+27\\d{9,10}$";
    private static final Pattern PHONE_PATTERN = Pattern.compile(SA_PHONE_REGEX);
@@ -45,6 +70,15 @@ public class Login {
       this.cellPhoneNumber = "";
    }
 
+   /**
+    * Parameterized constructor to initialize user information.
+    *
+    * @param firstName       User's first name
+    * @param lastName        User's last name
+    * @param username        User's username
+    * @param password        User's password
+    * @param cellPhoneNumber User's cell phone number
+    */
    public Login(String firstName, String lastName, String username, String password, String cellPhoneNumber) {
       this.firstName = firstName;
       this.lastName = lastName;
@@ -94,17 +128,6 @@ public class Login {
    public void setCellPhoneNumber(String cellPhoneNumber) {
       this.cellPhoneNumber = cellPhoneNumber;
    }
-
-    /**
-    * Parameterized constructor to initialize user information.
-    *
-    * @param firstName       User's first name
-    * @param lastName        User's last name
-    * @param username        User's username
-    * @param password        User's password
-    * @param cellPhoneNumber User's cell phone number
-    */
-   
 
    // --- Validation Methods ---
 
@@ -165,7 +188,7 @@ public class Login {
       return hasCapital && hasNumber && hasSpecial;
    }
 
-      /**
+   /**
     * Checks the currently stored password.
     *
     * @return true if complex enough, false otherwise
@@ -321,7 +344,6 @@ public class Login {
       return MSG_LOGIN_FAILED;
    }
 
-   
    /**
     * Authenticates the user with username and password and returns the login
     * status message.
