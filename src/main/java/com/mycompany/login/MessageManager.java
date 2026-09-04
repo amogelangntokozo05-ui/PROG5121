@@ -289,3 +289,96 @@ public class MessageManager {
 
         return "Message with hash " + hash + " not found.";
     }
+
+    
+
+    /**
+     * Requirement 2.f: Display a report that lists full details of all messages (or sent messages).
+     * Includes: Message Hash, Recipient, Message.
+     *
+     * @return Formatted multi-line report string
+     */
+    public String displayReport() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("==================================================\n");
+        sb.append("                 MESSAGE REPORT                   \n");
+        sb.append("==================================================\n");
+
+        if (allMessageObjects.isEmpty()) {
+            sb.append("No messages to display.\n");
+            return sb.toString();
+        }
+
+        for (int i = 0; i < allMessageObjects.size(); i++) {
+            Message msg = allMessageObjects.get(i);
+            sb.append("Message ID:   ").append(messageIds.get(i)).append("\n")
+              .append("Message Hash: ").append(messageHashes.get(i)).append("\n")
+              .append("Recipient:    ").append(recipients.get(i)).append("\n")
+              .append("Message:      ").append(msg.getMessageText()).append("\n")
+              .append("Status/Flag:  ").append(flags.get(i)).append("\n")
+              .append("--------------------------------------------------\n");
+        }
+        return sb.toString();
+    }
+
+    // --- JSON Reading & Writing ---
+
+    /**
+     * Reads stored messages from a JSON file into the stored messages array.
+     *
+     * References:
+     * Google Gson documentation for JSON deserialization into Java Collections:
+     * https://github.com/google/gson
+     *
+     * @param filePath File path of the JSON file
+     * @return Array of stored message texts loaded from JSON
+     */
+    public String[] readStoredMessagesFromJson(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists() || file.length() == 0) {
+            return new String[0];
+        }
+
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(file)) {
+            Type listType = new TypeToken<ArrayList<Message>>() {}.getType();
+            List<Message> loaded = gson.fromJson(reader, listType);
+
+            if (loaded != null) {
+                for (Message msg : loaded) {
+                    addMessage(msg, "Stored");
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading JSON file: " + e.getMessage());
+        }
+
+        return getStoredMessagesArray();
+    }
+
+    /**
+     * Saves all current stored messages into a JSON file.
+     *
+     * @param filePath File path
+     * @return true if successful, false otherwise
+     */
+    public boolean saveStoredMessagesToJson(String filePath) {
+        File file = new File(filePath);
+        List<Message> toSave = new ArrayList<>();
+
+        for (int i = 0; i < flags.size(); i++) {
+            if ("Stored".equalsIgnoreCase(flags.get(i))) {
+                toSave.add(allMessageObjects.get(i));
+            }
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(toSave, writer);
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error saving stored messages to JSON: " + e.getMessage());
+            return false;
+        }
+    }
+}
